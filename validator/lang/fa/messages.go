@@ -1,0 +1,25 @@
+package fa
+
+var Messages = map[string]string{
+	"Unauthenticated":                 "لطفا ابتدا وارد شوید",
+	"Deactivated":                     "متاسفانه، حساب کاربری شما مسدود می باشد",
+	"InvalidUsername":                 "شماره موبایل یا ایمیل ورودی معتبر نمی باشد",
+	"InvalidUsernameOrPassword":       "شماره موبایل یا رمز عبور را اشتباه وارد کرده اید",
+	"WrongPassword":                   "پسورد اشتباه است!",
+	"InvalidCode":                     "کد وارد شده معتبر نیست",
+	"ExpiredCode":                     "کد وارد شده منقضی شده است",
+	"PasswordChanged":                 "رمز عبور با موفقیت تغییر کرد",
+	"DuplicatedUsername":              "شما قبلا در سایت ثبت نام کرده اید",
+	"UnMatchingMobileAndNationalCode": "شماره ی موبایل و کد ملی باهم مطابقت ندارد",
+	"Welcome":                         "خوش آمدید!",
+	"VerificationSmsSent":             "کد تایید برای شما پیامک شد",
+	"VerificationEmailSent":           "کد تایید برای شما ایمیل شد",
+	"LimitAppended":                   "تعداد درخواست غیر مجاز",
+	"UserDoesNotExist":                "کاربر یافت نشد",
+	"UserMobileAdded":                 "شماره موبایل با موفقیت به پروفایل شما افزوده شد",
+	"UserEmailAdded":                  "ایمیل با موفقیت به پروفایل شما افزوده شد",
+	"UpdateProfile":                   "تغییرات با موفقیت ذخیره شد",
+	"ForeignerDocumentUpdate":         "مدارک با موفقیت ارسال شد",
+	"UserHasPhoneError":               "تلفن وارد شده قبلا در سیستم ثبت شده است",
+	"UserHasEmailError":               "ایمیل وارد شده قبلا در سیستم ثبت شده است",
+}
