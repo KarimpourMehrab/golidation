@@ -141,7 +141,6 @@ func (v *Validator) messageParamMaker(rule string, replacements map[string]strin
 			placeholder := fmt.Sprintf("%s", key)
 			text = strings.ReplaceAll(text, placeholder, value)
 		}
-		fmt.Println(text)
 
 		v.messages = append(v.messages, text)
 	}
@@ -903,11 +902,8 @@ func (v *Validator) Integer() *Validator {
 
 	// Check if the value is an integer
 	switch v.value.(type) {
-	case int:
+	case int8, int16, int32, int64, int, uint, uint8, uint16, uint32:
 		status = true
-	case string:
-		_, err := strconv.Atoi(v.value.(string))
-		status = err == nil
 	default:
 		status = false
 	}
@@ -915,6 +911,23 @@ func (v *Validator) Integer() *Validator {
 	// If validation fails, call messageMaker
 	if !status {
 		v.messageMaker("integer")
+	}
+	return v
+}
+func (v *Validator) Float() *Validator {
+	var status bool
+
+	// Check if the value is an integer
+	switch v.value.(type) {
+	case float32, float64:
+		status = true
+	default:
+		status = false
+	}
+
+	// If validation fails, call messageMaker
+	if !status {
+		v.messageMaker("float")
 	}
 	return v
 }
@@ -1088,7 +1101,7 @@ func (v *Validator) Numeric() *Validator {
 
 	// Check if the value is a number
 	switch v.value.(type) {
-	case int, float32, float64, int32, int64:
+	case int, int8, int16, int32, int64, float32, float64, uint, uint8, uint16, uint32, uint64:
 		if v.value == 0 && !v.optional {
 			status = false
 		} else {

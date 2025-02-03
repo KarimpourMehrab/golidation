@@ -32,6 +32,7 @@ var EnValidationMsg = map[string]string{
 	"image":                  ":attr must be an image.",
 	"in":                     "The selected :attr is invalid.",
 	"integer":                ":attr must be an integer.",
+	"float":                  ":attr must be an float.",
 	"in_array":               ":attr does not exist in :other.",
 	"ip":                     ":attr must be a valid IP address.",
 	"ipv4":                   ":attr must be a valid IPv4 address.",
