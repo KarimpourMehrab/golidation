@@ -13,6 +13,20 @@ go get github.com/KarimpourMehrab/golidation
 
 ## Usage
 
+### Configuration (set language & add translation attributes)
+Sets the validation language to Persian (Fa): This likely means that error messages will be displayed in Persian.
+
+Defines attribute name translations: Instead of showing field names like "first_name" and "last_name" in error messages, it will use "نام" and "نام خانوادگی", making validation messages more user-friendly for Persian-speaking users.
+
+```bash
+       validator.SetOptions(validator.Options{
+		Language: validator.Fa,
+		Attributes: map[string]string{
+			"first_name": "نام",
+			"last_name":  "نام خانوادگی",
+		},
+	})
+```
 
 ### Group Validation
 

@@ -16,10 +16,23 @@ import (
 	"unicode"
 )
 
+type Lang string
+
 const (
-	Fa = "fa"
-	En = "en"
+	Fa Lang = "fa"
+	En Lang = "en"
 )
+
+var options *Options
+
+type Options struct {
+	Language   Lang
+	Attributes map[string]string
+}
+
+func SetOptions(opt Options) {
+	options = &opt
+}
 
 type Validator struct {
 	attribute      string
@@ -50,18 +63,26 @@ func (v *Validator) Is(val interface{}) *Validator {
 	return v
 }
 
-func (v *Validator) EnMsg() *Validator {
+func (v *Validator) enMsg() *Validator {
 	v.langMessages = EnValidationMsg
 	return v
 }
+func (v *Validator) mergeAttributes() *Validator {
+	if options != nil && len(options.Attributes) > 0 {
+		for key, value := range options.Attributes {
+			v.attributeTrans[key] = value
+		}
+	}
+	return v
+}
 
-func (v *Validator) FaMsg() *Validator {
+func (v *Validator) faMsg() *Validator {
 	v.langMessages = FaValidationMsg
 	v.attributeTrans = FaAttributes
 	return v
 }
 
-func (v *Validator) Lang(lan interface{}) *Validator {
+func (v *Validator) lang(lan interface{}) *Validator {
 	if lan == Fa {
 		v.langMessages = FaValidationMsg
 		v.attributeTrans = FaAttributes
@@ -74,13 +95,23 @@ func (v *Validator) Lang(lan interface{}) *Validator {
 
 func (v *Validator) messageMaker(rule string) *Validator {
 	if len(v.langMessages) == 0 {
-		v.langMessages = EnValidationMsg
+		if options != nil && options.Language == Fa {
+			v.langMessages = FaValidationMsg
+		} else {
+			v.langMessages = EnValidationMsg
+		}
 	}
+
+	if options != nil {
+		v.lang(options.Language)
+	}
+
 	val, ok := v.langMessages[rule]
 	attributeTrans, okTrans := v.attributeTrans[v.attribute]
 	if okTrans {
 		v.attribute = attributeTrans
 	}
+	v.mergeAttributes()
 	if ok {
 		//fmt.Println("append new message...", v.attribute)
 		v.messages = append(v.messages, strings.Replace(val, ":attr", v.attribute, 1))
@@ -90,13 +121,18 @@ func (v *Validator) messageMaker(rule string) *Validator {
 
 func (v *Validator) messageParamMaker(rule string, replacements map[string]string) *Validator {
 	if len(v.langMessages) == 0 {
-		v.langMessages = EnValidationMsg
+		if options != nil && options.Language == Fa {
+			v.langMessages = FaValidationMsg
+		} else {
+			v.langMessages = EnValidationMsg
+		}
 	}
 	val, ok := v.langMessages[rule]
 	attributeTrans, okTrans := v.attributeTrans[v.attribute]
 	if okTrans {
 		v.attribute = attributeTrans
 	}
+	v.mergeAttributes()
 	if ok {
 		text := strings.Replace(val, ":attr", v.attribute, 1)
 		for key, value := range replacements {
