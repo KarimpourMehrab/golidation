@@ -34,42 +34,42 @@ errors := validator.Group(
 Ensures the attribute is present and not empty.
 
 ```bash
-validator.Attribute("name").Required()
+validator.Attribute("name").Is(nil).Required()
 ```
 
 ### String()  
 Ensures the attribute is a valid string.
 
 ```bash
-validator.Attribute("name").String()
+validator.Attribute("name").Is(nil).String()
 ```
 
 ### Numeric()  
 Ensures the attribute contains only numbers.
 
 ```bash
-validator.Attribute("age").Numeric()
+validator.Attribute("age").Is(nil).Numeric()
 ```
 
 ### Email()  
 Ensures the attribute is a valid email address.
 
 ```bash
-validator.Attribute("email").Email()
+validator.Attribute("email").Is(nil).Email()
 ```
 
 ### Alpha()  
 Ensures the attribute contains only alphabetic characters.
 
 ```bash
-validator.Attribute("name").Alpha()
+validator.Attribute("name").Is(nil).Alpha()
 ```
 
 ### AlphaNum()  
 Ensures the attribute contains only letters and numbers.
 
 ```bash
-validator.Attribute("username").AlphaNum()
+validator.Attribute("username").Is(nil).AlphaNum()
 ```
 
 ### Date and Time Methods
@@ -78,28 +78,28 @@ validator.Attribute("username").AlphaNum()
 Ensures the attribute is after the specified time.
 
 ```bash
-validator.Attribute("event_date").After(time.Now())
+validator.Attribute("event_date").Is(nil).After(time.Now())
 ```
 
 ### Before(time)  
 Ensures the attribute is before the specified time.
 
 ```bash
-validator.Attribute("event_date").Before(time.Now())
+validator.Attribute("event_date").Is(nil).Before(time.Now())
 ```
 
 ### DateEquals(time)  
 Ensures the attribute equals the specified date.
 
 ```bash
-validator.Attribute("birth_date").DateEquals(time.Now())
+validator.Attribute("birth_date").Is(nil).DateEquals(time.Now())
 ```
 
 ### DateFormat(format)  
 Ensures the attribute matches the specified date format.
 
 ```bash
-validator.Attribute("birth_date").DateFormat("YYYY-MM-DD")
+validator.Attribute("birth_date").Is(nil).DateFormat("YYYY-MM-DD")
 ```
 
 ### Conditional Methods
@@ -108,28 +108,28 @@ validator.Attribute("birth_date").DateFormat("YYYY-MM-DD")
 Ensures the attribute is accepted only if another attribute matches the specified value.
 
 ```bash
-validator.Attribute("agreement").AcceptedIf("name", "mehrab")
+validator.Attribute("agreement").Is(nil).AcceptedIf("name", "mehrab")
 ```
 
 ### DeclinedIf(attribute, value)  
 Ensures the attribute is declined only if another attribute matches the specified value.
 
 ```bash
-validator.Attribute("agreement").DeclinedIf("name", "test")
+validator.Attribute("agreement").Is(nil).DeclinedIf("name", "test")
 ```
 
 ### RequiredIf(attribute, value)  
 Ensures the attribute is required if another attribute matches the specified value.
 
 ```bash
-validator.Attribute("email").RequiredIf("name", "mehrab")
+validator.Attribute("email").Is(nil).RequiredIf("name", "mehrab")
 ```
 
 ### RequiredUnless(attribute, values)  
 Ensures the attribute is required unless another attribute matches one of the specified values.
 
 ```bash
-validator.Attribute("phone").RequiredUnless("name", []interface{}{"mehrab"})
+validator.Attribute("phone").Is(nil).RequiredUnless("name", []interface{}{"mehrab"})
 ```
 
 ### Array and String Methods
@@ -138,28 +138,28 @@ validator.Attribute("phone").RequiredUnless("name", []interface{}{"mehrab"})
 Ensures the attribute is an array.
 
 ```bash
-validator.Attribute("items").Array()
+validator.Attribute("items").Is(nil).Array()
 ```
 
 ### InArray(values)  
 Ensures the attribute is one of the values in the array.
 
 ```bash
-validator.Attribute("status").InArray([]interface{}{"active", "inactive"})
+validator.Attribute("status").Is(nil).InArray([]interface{}{"active", "inactive"})
 ```
 
 ### EndsWith(suffixes)  
 Ensures the attribute ends with one of the specified suffixes.
 
 ```bash
-validator.Attribute("url").EndsWith([]string{"com", "org"})
+validator.Attribute("url").Is(nil).EndsWith([]string{"com", "org"})
 ```
 
 ### StartsWith(prefixes)  
 Ensures the attribute starts with one of the specified prefixes.
 
 ```bash
-validator.Attribute("website").StartsWith([]string{"https://"})
+validator.Attribute("website").Is(nil).StartsWith([]string{"https://"})
 ```
 
 ### Regex and Format Methods
@@ -168,14 +168,14 @@ validator.Attribute("website").StartsWith([]string{"https://"})
 Ensures the attribute matches the specified pattern.
 
 ```bash
-validator.Attribute("email").Regex(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+validator.Attribute("email").Is(nil).Regex(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 ```
 
 ### NotRegex(pattern)  
 Ensures the attribute does not match the specified pattern.
 
 ```bash
-validator.Attribute("password").NotRegex(`^[a-zA-Z0-9]*$`)
+validator.Attribute("password").Is(nil).NotRegex(`^[a-zA-Z0-9]*$`)
 ```
 
 ### Special Methods
@@ -184,35 +184,35 @@ validator.Attribute("password").NotRegex(`^[a-zA-Z0-9]*$`)
 Ensures the attribute is a valid UUID.
 
 ```bash
-validator.Attribute("user_id").UUID()
+validator.Attribute("user_id").Is(nil).UUID()
 ```
 
 ### IP()  
 Ensures the attribute is a valid IP address.
 
 ```bash
-validator.Attribute("ip_address").IP()
+validator.Attribute("ip_address").Is(nil).IP()
 ```
 
 ### IPv4()  
 Ensures the attribute is a valid IPv4 address.
 
 ```bash
-validator.Attribute("ip_address").IPv4()
+validator.Attribute("ip_address").Is(nil).IPv4()
 ```
 
 ### IPv6()  
 Ensures the attribute is a valid IPv6 address.
 
 ```bash
-validator.Attribute("ip_address").IPv6()
+validator.Attribute("ip_address").Is(nil).IPv6()
 ```
 
 ### JSON()  
 Ensures the attribute is a valid JSON string.
 
 ```bash
-validator.Attribute("data").JSON()
+validator.Attribute("data").Is(nil).JSON()
 ```
 
 ### File and Image Methods
@@ -221,14 +221,14 @@ validator.Attribute("data").JSON()
 Ensures the attribute is a valid image file.
 
 ```bash
-validator.Attribute("profile_picture").Image()
+validator.Attribute("profile_picture").Is(nil).Image()
 ```
 
 ### Mimes(mimeTypes)  
 Ensures the attribute is a file with one of the specified MIME types.
 
 ```bash
-validator.Attribute("profile_picture").Mimes([]string{"image/jpeg", "image/png"})
+validator.Attribute("profile_picture").Is(nil).Mimes([]string{"image/jpeg", "image/png"})
 ```
 
 ### Other Methods
@@ -237,35 +237,35 @@ validator.Attribute("profile_picture").Mimes([]string{"image/jpeg", "image/png"}
 Ensures the attribute is a boolean value.
 
 ```bash
-validator.Attribute("is_active").Boolean()
+validator.Attribute("is_active").Is(nil).Boolean()
 ```
 
 ### Unique(fields)  
 Ensures the attribute is unique among the specified fields.
 
 ```bash
-validator.Attribute("username").Unique([]interface{}{"username"})
+validator.Attribute("username").Is(nil).Unique([]interface{}{"username"})
 ```
 
 ### Exists(fields)  
 Ensures the attribute exists among the specified fields.
 
 ```bash
-validator.Attribute("user_id").Exists([]interface{}{"user"})
+validator.Attribute("user_id").Is(nil).Exists([]interface{}{"user"})
 ```
 
 ### Prohibited()  
 Ensures the attribute is prohibited.
 
 ```bash
-validator.Attribute("name").Prohibited()
+validator.Attribute("name").Is(nil).Prohibited()
 ```
 
 ### Filled()  
 Ensures the attribute is filled (not empty).
 
 ```bash
-validator.Attribute("email").Filled()
+validator.Attribute("email").Is(nil).Filled()
 ```
 
 ## Examples
@@ -274,6 +274,7 @@ Here is an example of how to combine multiple validation methods:
 
 ```bash
 validator.Attribute("email").
+    .Is(nil)
     Required().
     Email().
     Unique([]interface{}{"email"}).
