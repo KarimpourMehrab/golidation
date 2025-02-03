@@ -78,4 +78,5 @@ func main() {
 	for attribute, err := range errors {
 		fmt.Println(attribute, err)
 	}
+
 }

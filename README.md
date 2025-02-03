@@ -13,6 +13,21 @@ go get github.com/KarimpourMehrab/golidation
 
 ## Usage
 
+
+### Group Validation
+
+### Group()
+This function groups multiple validation error checks together. It likely returns a slice of errors or a combined validation result.
+
+```bash
+errors := validator.Group(
+		validator.Attribute("firstName").Is(nil).Required().String().Errors(),
+		validator.Attribute("lastName").Is(nil).Required().String().Errors(),
+	)
+```
+
+
+
 ### Basic Methods
 
 ### Required()  

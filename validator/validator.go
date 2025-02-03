@@ -35,6 +35,15 @@ func Attribute(attribute string) *Validator {
 	v.attribute = attribute
 	return &v
 }
+func Group(errors ...map[string][]error) map[string][]error {
+	var groupErrors = make(map[string][]error, len(errors))
+	for _, err := range errors {
+		for key, e := range err {
+			groupErrors[key] = e
+		}
+	}
+	return groupErrors
+}
 
 func (v *Validator) Is(val interface{}) *Validator {
 	v.value = val
