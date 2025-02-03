@@ -31,7 +31,7 @@ var FaValidationMsg = map[string]string{
 	"filled":                 "فیلد :attr الزامی است",
 	"image":                  ":attr باید تصویر باشد.",
 	"in":                     ":attr انتخاب شده، معتبر نیست.",
-	"integer":                ":attr باید نوع داده ای عددی (integer) باشد.",
+	"integer":                ":attr باید نوع داده ای عددی باشد.",
 	"in_array":               "فیلد :attr در :other موجود نیست.",
 	"ip":                     ":attr باید IP آدرس معتبر باشد.",
 	"ipv4":                   ":attr باید یک ادرس درست IPv4 باشد.",

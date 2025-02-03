@@ -36,6 +36,7 @@ func SetOptions(opt Options) {
 
 type Validator struct {
 	attribute      string
+	finalAttribute string
 	value          interface{}
 	optional       bool
 	langMessages   map[string]string
@@ -46,6 +47,7 @@ type Validator struct {
 func Attribute(attribute string) *Validator {
 	var v Validator
 	v.attribute = attribute
+	v.finalAttribute = attribute
 	return &v
 }
 func Group(errors ...map[string][]error) map[string][]error {
@@ -106,6 +108,7 @@ func (v *Validator) messageMaker(rule string) *Validator {
 		v.lang(options.Language)
 	}
 
+	v.mergeAttributes()
 	val, ok := v.langMessages[rule]
 	attributeTrans, okTrans := v.attributeTrans[v.attribute]
 	if okTrans {
@@ -113,7 +116,6 @@ func (v *Validator) messageMaker(rule string) *Validator {
 	}
 	v.mergeAttributes()
 	if ok {
-		//fmt.Println("append new message...", v.attribute)
 		v.messages = append(v.messages, strings.Replace(val, ":attr", v.attribute, 1))
 	}
 	return v
@@ -149,7 +151,7 @@ func (v *Validator) messageParamMaker(rule string, replacements map[string]strin
 func (v *Validator) Error() map[string]error {
 	if len(v.messages) != 0 {
 		fErrMsg := v.messages[0]
-		return map[string]error{v.attribute: fmt.Errorf(fErrMsg)}
+		return map[string]error{v.finalAttribute: fmt.Errorf(fErrMsg)}
 	}
 	return nil
 }
@@ -157,13 +159,16 @@ func (v *Validator) Error() map[string]error {
 func (v *Validator) Errors() (errors map[string][]error) {
 	errors = map[string][]error{}
 	for _, message := range v.messages {
-		_, ok := errors[v.attribute]
+		_, ok := errors[v.finalAttribute]
 		if ok {
-			errors[v.attribute] = append(errors[v.attribute], fmt.Errorf(message))
+			errors[v.finalAttribute] = append(errors[v.finalAttribute], fmt.Errorf(message))
 		} else {
-			errors[v.attribute] = []error{fmt.Errorf(message)}
+			errors[v.finalAttribute] = []error{fmt.Errorf(message)}
 		}
 
+	}
+	for _, err := range errors {
+		fmt.Println(err)
 	}
 	return errors
 }
