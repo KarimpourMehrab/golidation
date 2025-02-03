@@ -8,7 +8,7 @@ This package provides a set of validation methods for data validation in Golang.
 To install the validation package, run the following command:
 
 ```bash
-go get github.com/yourusername/validator
+go get github.com/KarimpourMehrab/golidation
 ```
 
 ## Usage
