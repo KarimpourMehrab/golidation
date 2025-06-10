@@ -5,13 +5,13 @@ A powerful and flexible validation library for Go applications. Golidation provi
 ## Installation
 
 ```bash
-go get github.com/mehrab-karimpour/golidation
+go get github.com/KarimpourMehrab/golidation
 ```
 
 ## Basic Usage
 
 ```go
-import "github.com/mehrab-karimpour/golidation/package/validator"
+import "github.com/KarimpourMehrab/golidation/package/validator"
 
 // Create a new validator instance
 v := validator.Attribute("email").Is("test@example.com")
@@ -139,7 +139,7 @@ package main
 
 import (
     "fmt"
-    "github.com/mehrab-karimpour/golidation/package/validator"
+    "github.com/KarimpourMehrab/golidation/package/validator"
 )
 
 func main() {
