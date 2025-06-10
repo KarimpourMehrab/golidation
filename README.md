@@ -1,300 +1,168 @@
+# Golidation
 
-# Golang Validation Package
-
-This package provides a set of validation methods for data validation in Golang. Below are the descriptions and examples for using each method.
+A powerful and flexible validation library for Go applications. Golidation provides a fluent interface for validating data with support for multiple languages (English and Persian).
 
 ## Installation
 
-To install the validation package, run the following command:
-
 ```bash
-go get github.com/KarimpourMehrab/golidation
+go get github.com/mehrab-karimpour/golidation
 ```
 
-## Usage
+## Basic Usage
 
-### Configuration (set language & add translation attributes)
-Sets the validation language to Persian (Fa): This likely means that error messages will be displayed in Persian.
+```go
+import "github.com/mehrab-karimpour/golidation/package/validator"
 
-Defines attribute name translations: Instead of showing field names like "first_name" and "last_name" in error messages, it will use "نام" and "نام خانوادگی", making validation messages more user-friendly for Persian-speaking users.
+// Create a new validator instance
+v := validator.Attribute("email").Is("test@example.com")
 
-```bash
-       validator.SetOptions(validator.Options{
-		Language: validator.Fa,
-		Attributes: map[string]string{
-			"first_name": "نام",
-			"last_name":  "نام خانوادگی",
-		},
-	})
+// Set language (English or Persian)
+v.Lang("en") // or v.Lang("fa")
+
+// Add validation rules
+v.Email()
+
+// Check for errors
+if err := v.Error(); err != nil {
+    // Handle error
+}
 ```
 
-### Group Validation
+## Available Validation Methods
 
-### Group()
-This function groups multiple validation error checks together. It likely returns a slice of errors or a combined validation result.
+### Basic Validation Rules
 
-```bash
-errors := validator.Group(
-		validator.Attribute("firstName").Is(nil).Required().String().Errors(),
-		validator.Attribute("lastName").Is(nil).Required().String().Errors(),
-	)
+- `Accepted()` - Field must be "yes", "on", "1", "true", or true
+- `AcceptedIf(other string, otherValue interface{})` - Field must be accepted when another field has a specific value
+- `ActiveURL()` - Field must be a valid URL
+- `After(compareDate time.Time)` - Field must be a date after the given date
+- `AfterOrEqual(compareDate time.Time)` - Field must be a date after or equal to the given date
+- `Alpha()` - Field must contain only alphabetic characters
+- `AlphaDash()` - Field must contain only letters, numbers, and dashes
+- `AlphaNum()` - Field must contain only letters and numbers
+- `Array()` - Field must be an array
+- `Before(compareDate time.Time)` - Field must be a date before the given date
+- `BeforeOrEqual(compareDate time.Time)` - Field must be a date before or equal to the given date
+- `Boolean()` - Field must be a boolean value
+- `Confirmed(confirmValue interface{})` - Field must match its confirmation value
+- `Date()` - Field must be a valid date
+- `DateEquals(compareDate time.Time)` - Field must be a date equal to the given date
+- `DateFormat(format string)` - Field must match the given date format
+- `Declined()` - Field must be "no", "off", "0", "false", or false
+- `DeclinedIf(otherValue interface{})` - Field must be declined when another field has a specific value
+- `Different(otherValue interface{})` - Field must be different from another field
+- `Digits(digits int)` - Field must be numeric and have an exact length
+- `DigitsBetween(min int, max int)` - Field must be numeric and have a length between min and max
+- `Dimensions(minWidth, minHeight, maxWidth, maxHeight int)` - Field must be an image with specific dimensions
+- `Distinct()` - Field must be an array with unique values
+- `Email()` - Field must be a valid email address
+- `EndsWith(values []string)` - Field must end with one of the given values
+- `Exists(validValues []interface{})` - Field must exist in the given array
+- `Filled()` - Field must not be empty
+- `Image()` - Field must be an image file
+- `In(validValues []interface{})` - Field must be included in the given array
+- `Integer()` - Field must be an integer
+- `InArray(arr []interface{})` - Field must exist in the given array
+- `IP()` - Field must be a valid IP address
+- `IPv4()` - Field must be a valid IPv4 address
+- `IPv6()` - Field must be a valid IPv6 address
+- `JSON()` - Field must be a valid JSON string
+- `Mimes(validTypes []string)` - Field must be a file of one of the given MIME types
+- `NotIn(invalidValues []interface{})` - Field must not be included in the given array
+- `NotRegex(pattern string)` - Field must not match the given regular expression
+- `Numeric()` - Field must be numeric
+- `Present()` - Field must be present
+- `Prohibited()` - Field must be absent
+- `ProhibitedIf(otherValue interface{})` - Field must be absent when another field has a specific value
+- `Regex(pattern string)` - Field must match the given regular expression
+- `Required()` - Field must be present and not empty
+- `RequiredIf(otherValue interface{})` - Field must be present and not empty when another field has a specific value
+- `RequiredUnless(otherValue interface{}, validValues []interface{})` - Field must be present and not empty unless another field has a specific value
+- `Same(otherValue interface{})` - Field must match another field
+- `StartsWith(values []string)` - Field must start with one of the given values
+- `String()` - Field must be a string
+- `Timezone()` - Field must be a valid timezone
+- `Unique(existingValues []interface{})` - Field must be unique among the given values
+- `URL()` - Field must be a valid URL
+- `UUID()` - Field must be a valid UUID
+
+### Password Validation Rules
+
+- `PasswordLetters()` - Password must contain at least one letter
+- `PasswordMixed()` - Password must contain at least one uppercase and one lowercase letter
+- `PasswordNumbers()` - Password must contain at least one number
+- `PasswordSymbols()` - Password must contain at least one symbol
+- `PasswordUncompromised(leakedValues []string)` - Password must not have appeared in a data leak
+
+### String Length Validation
+
+- `MaxString(max int)` - String must not be longer than the given length
+- `MinString(min int)` - String must not be shorter than the given length
+- `MaxNumeric(max int)` - Numeric value must not be greater than the given value
+
+## Language Support
+
+Golidation supports both English and Persian languages. You can set the language using:
+
+```go
+// For English
+v.Lang("en")
+// or
+v.EnMsg()
+
+// For Persian
+v.Lang("fa")
+// or
+v.FaMsg()
 ```
 
+## Error Handling
 
+You can handle validation errors in two ways:
 
-### Basic Methods
+```go
+// Get the first error
+if err := v.Error(); err != nil {
+    // Handle single error
+}
 
-### Required()  
-Ensures the attribute is present and not empty.
-
-```bash
-validator.Attribute("name").Is(nil).Required()
+// Get all errors
+if errors := v.Errors(); len(errors) > 0 {
+    // Handle multiple errors
+}
 ```
 
-### String()  
-Ensures the attribute is a valid string.
+## Example
 
-```bash
-validator.Attribute("name").Is(nil).String()
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/mehrab-karimpour/golidation/package/validator"
+)
+
+func main() {
+    // Create a validator for email
+    v := validator.Attribute("email").Is("test@example.com")
+    
+    // Set language to English
+    v.Lang("en")
+    
+    // Add validation rules
+    v.Required().Email()
+    
+    // Check for errors
+    if err := v.Error(); err != nil {
+        fmt.Println(err)
+    }
+}
 ```
 
-### Numeric()  
-Ensures the attribute contains only numbers.
+## Contributing
 
-```bash
-validator.Attribute("age").Is(nil).Numeric()
-```
-
-### Email()  
-Ensures the attribute is a valid email address.
-
-```bash
-validator.Attribute("email").Is(nil).Email()
-```
-
-### Alpha()  
-Ensures the attribute contains only alphabetic characters.
-
-```bash
-validator.Attribute("name").Is(nil).Alpha()
-```
-
-### AlphaNum()  
-Ensures the attribute contains only letters and numbers.
-
-```bash
-validator.Attribute("username").Is(nil).AlphaNum()
-```
-
-### Date and Time Methods
-
-### After(time)  
-Ensures the attribute is after the specified time.
-
-```bash
-validator.Attribute("event_date").Is(nil).After(time.Now())
-```
-
-### Before(time)  
-Ensures the attribute is before the specified time.
-
-```bash
-validator.Attribute("event_date").Is(nil).Before(time.Now())
-```
-
-### DateEquals(time)  
-Ensures the attribute equals the specified date.
-
-```bash
-validator.Attribute("birth_date").Is(nil).DateEquals(time.Now())
-```
-
-### DateFormat(format)  
-Ensures the attribute matches the specified date format.
-
-```bash
-validator.Attribute("birth_date").Is(nil).DateFormat("YYYY-MM-DD")
-```
-
-### Conditional Methods
-
-### AcceptedIf(attribute, value)  
-Ensures the attribute is accepted only if another attribute matches the specified value.
-
-```bash
-validator.Attribute("agreement").Is(nil).AcceptedIf("name", "mehrab")
-```
-
-### DeclinedIf(attribute, value)  
-Ensures the attribute is declined only if another attribute matches the specified value.
-
-```bash
-validator.Attribute("agreement").Is(nil).DeclinedIf("name", "test")
-```
-
-### RequiredIf(attribute, value)  
-Ensures the attribute is required if another attribute matches the specified value.
-
-```bash
-validator.Attribute("email").Is(nil).RequiredIf("name", "mehrab")
-```
-
-### RequiredUnless(attribute, values)  
-Ensures the attribute is required unless another attribute matches one of the specified values.
-
-```bash
-validator.Attribute("phone").Is(nil).RequiredUnless("name", []interface{}{"mehrab"})
-```
-
-### Array and String Methods
-
-### Array()  
-Ensures the attribute is an array.
-
-```bash
-validator.Attribute("items").Is(nil).Array()
-```
-
-### InArray(values)  
-Ensures the attribute is one of the values in the array.
-
-```bash
-validator.Attribute("status").Is(nil).InArray([]interface{}{"active", "inactive"})
-```
-
-### EndsWith(suffixes)  
-Ensures the attribute ends with one of the specified suffixes.
-
-```bash
-validator.Attribute("url").Is(nil).EndsWith([]string{"com", "org"})
-```
-
-### StartsWith(prefixes)  
-Ensures the attribute starts with one of the specified prefixes.
-
-```bash
-validator.Attribute("website").Is(nil).StartsWith([]string{"https://"})
-```
-
-### Regex and Format Methods
-
-### Regex(pattern)  
-Ensures the attribute matches the specified pattern.
-
-```bash
-validator.Attribute("email").Is(nil).Regex(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
-```
-
-### NotRegex(pattern)  
-Ensures the attribute does not match the specified pattern.
-
-```bash
-validator.Attribute("password").Is(nil).NotRegex(`^[a-zA-Z0-9]*$`)
-```
-
-### Special Methods
-
-### UUID()  
-Ensures the attribute is a valid UUID.
-
-```bash
-validator.Attribute("user_id").Is(nil).UUID()
-```
-
-### IP()  
-Ensures the attribute is a valid IP address.
-
-```bash
-validator.Attribute("ip_address").Is(nil).IP()
-```
-
-### IPv4()  
-Ensures the attribute is a valid IPv4 address.
-
-```bash
-validator.Attribute("ip_address").Is(nil).IPv4()
-```
-
-### IPv6()  
-Ensures the attribute is a valid IPv6 address.
-
-```bash
-validator.Attribute("ip_address").Is(nil).IPv6()
-```
-
-### JSON()  
-Ensures the attribute is a valid JSON string.
-
-```bash
-validator.Attribute("data").Is(nil).JSON()
-```
-
-### File and Image Methods
-
-### Image()  
-Ensures the attribute is a valid image file.
-
-```bash
-validator.Attribute("profile_picture").Is(nil).Image()
-```
-
-### Mimes(mimeTypes)  
-Ensures the attribute is a file with one of the specified MIME types.
-
-```bash
-validator.Attribute("profile_picture").Is(nil).Mimes([]string{"image/jpeg", "image/png"})
-```
-
-### Other Methods
-
-### Boolean()  
-Ensures the attribute is a boolean value.
-
-```bash
-validator.Attribute("is_active").Is(nil).Boolean()
-```
-
-### Unique(fields)  
-Ensures the attribute is unique among the specified fields.
-
-```bash
-validator.Attribute("username").Is(nil).Unique([]interface{}{"username"})
-```
-
-### Exists(fields)  
-Ensures the attribute exists among the specified fields.
-
-```bash
-validator.Attribute("user_id").Is(nil).Exists([]interface{}{"user"})
-```
-
-### Prohibited()  
-Ensures the attribute is prohibited.
-
-```bash
-validator.Attribute("name").Is(nil).Prohibited()
-```
-
-### Filled()  
-Ensures the attribute is filled (not empty).
-
-```bash
-validator.Attribute("email").Is(nil).Filled()
-```
-
-## Examples
-
-Here is an example of how to combine multiple validation methods:
-
-```bash
-validator.Attribute("email").
-    .Is(nil)
-    Required().
-    Email().
-    Unique([]interface{}{"email"}).
-    NotRegex(`^[a-zA-Z0-9]*$`)
-```
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details. 
